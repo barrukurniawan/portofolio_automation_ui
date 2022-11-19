@@ -66,6 +66,25 @@ class TestLogin(unittest.TestCase):
         self.assertIn('tidak valid', response_data)
         self.assertEqual(response_message, 'Cek kembali email anda')
 
+    def test_a_failed_login_with_invalid_password_with_integer(self): 
+        # steps
+        browser = self.browser #buka web browser
+        browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+        time.sleep(3)
+        browser.find_element(By.XPATH,"/html/body/div/div[2]/form/input[1]").send_keys("barrujago@gmail.com") # isi email
+        time.sleep(1)
+        browser.find_element(By.CSS_SELECTOR,"input#password").send_keys(768678687687) # isi password
+        time.sleep(1)
+        browser.find_element(By.ID,"signin_login").click() # klik tombol sign in
+        time.sleep(1)
+
+        # validasi
+        response_data = browser.find_element(By.ID,"swal2-title").text
+        response_message = browser.find_element(By.ID,"swal2-content").text
+
+        self.assertIn('tidak valid', response_data)
+        self.assertEqual(response_message, 'Cek kembali email anda')
+
     def tearDown(self): 
         self.browser.close() 
 
